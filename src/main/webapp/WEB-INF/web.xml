@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+    <display-name>PhoneBook</display-name>
+    <welcome-file-list>
+        <welcome-file>phonebook</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>PhoneBook</servlet-name>
+        <servlet-class>servlets.PhoneBookController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PhoneBook</servlet-name>
+        <url-pattern>/phonebook</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteContact</servlet-name>
+        <servlet-class>servlets.DeleteContactController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteContact</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddContact</servlet-name>
+        <servlet-class>servlets.AddContactController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddContact</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+</web-app>
