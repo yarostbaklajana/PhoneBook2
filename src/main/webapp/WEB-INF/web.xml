@@ -28,4 +28,12 @@
         <servlet-name>AddContact</servlet-name>
         <url-pattern>/add</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Details</servlet-name>
+        <servlet-class>servlets.DetailsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Details</servlet-name>
+        <url-pattern>/details</url-pattern>
+    </servlet-mapping>
 </web-app>
