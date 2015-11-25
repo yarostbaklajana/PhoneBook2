@@ -80,6 +80,26 @@ public class PhoneBookDAO {
 
     }
 
+    public Contact getContact(int id) throws DAOException {
+        final String selectContact = "SELECT firstName, lastName FROM `contacts` WHERE id=" + id;
+        Contact contact = null;
+        try {
+            Connection connection = connect();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(selectContact);
+            while (result.next()) {
+                String firstName = result.getString("firstName");
+                String lastName = result.getString("lastName");
+                contact = new Contact(firstName, lastName);
+            }
+
+            connection.close();
+            return contact;
+        } catch (SQLException e) {
+            throw new DAOException("Unable to get contact!");
+        }
+    }
+
     public Connection connect() throws SQLException {
 
         return DriverManager.getConnection(hostName, userName, password);
