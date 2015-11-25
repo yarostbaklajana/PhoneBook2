@@ -90,7 +90,8 @@ public class PhoneBookDAO {
             while (result.next()) {
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
-                contact = new Contact(firstName, lastName);
+
+                contact = new Contact(id, firstName, lastName);
             }
 
             connection.close();
