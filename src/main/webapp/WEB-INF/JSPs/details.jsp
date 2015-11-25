@@ -11,7 +11,7 @@
     <header>
         <h1>Contact Details</h1>
     </header>
-   <p> <a href="/phonebook">Back To The List</a> | <a href="/edit">Edit Details</a> </p>
+    <p> <a href="/phonebook">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a> </p>
 
     <p> First Name: <c:out value="${contact.firstName}" /></p>
     <p> Last Name: <c:out value="${contact.lastName}" /></p>
