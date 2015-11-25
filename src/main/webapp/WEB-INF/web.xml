@@ -36,4 +36,12 @@
         <servlet-name>Details</servlet-name>
         <url-pattern>/details</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>EditContact</servlet-name>
+        <servlet-class>servlets.EditContactController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditContact</servlet-name>
+        <url-pattern>/edit</url-pattern>
+    </servlet-mapping>
 </web-app>
