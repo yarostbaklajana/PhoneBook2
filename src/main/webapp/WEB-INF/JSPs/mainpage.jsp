@@ -35,6 +35,7 @@
                 </form> <br>
 
                 <a href="/details?id=${current.id}"><button>Open details</button></a>
+
             </td>
         </tr>
     </c:forEach>
