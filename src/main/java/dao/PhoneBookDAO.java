@@ -101,6 +101,23 @@ public class PhoneBookDAO {
         }
     }
 
+    public void updateContact(Contact contact) throws DAOException {
+        final String updateContact = "UPDATE contacts SET firstName=?, lastName=? WHERE id=?";
+
+        try {
+            Connection connection = connect();
+            PreparedStatement statement = connection.prepareStatement(updateContact);
+            statement.setString(1,contact.getFirstName());
+            statement.setString(2, contact.getLastName());
+            statement.setInt(3, contact.getId());
+            statement.execute();
+            connection.close();
+
+        } catch (SQLException e) {
+            throw new DAOException("Unable to update contact!");
+        }
+    }
+
     public Connection connect() throws SQLException {
 
         return DriverManager.getConnection(hostName, userName, password);
