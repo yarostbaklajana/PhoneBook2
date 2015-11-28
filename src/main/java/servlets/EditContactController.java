@@ -33,6 +33,7 @@ public class EditContactController extends HttpServlet {
         if(!errorMessages.isEmpty()) {
             request.setAttribute("errorMessages", errorMessages);
             renderEditPage(request, response);
+            return;
         }
 
         try {
