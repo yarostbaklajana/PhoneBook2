@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by yaros on 19.11.2015.
- */
 @WebServlet("/PhoneBook/add")
 public class AddContactController extends HttpServlet {
 
@@ -37,11 +34,11 @@ public class AddContactController extends HttpServlet {
 
         List<String> errorMessages = new ArrayList<String>();
 
-        if (firstName.equals("") || firstName == null) {
+        if (firstName.equals("")) {
             errorMessages.add("The first name field is empty!");
         }
 
-        if (lastName.equals("") || lastName == null) {
+        if (lastName.equals("")) {
             errorMessages.add("The last name field is empty!");
         }
 
@@ -59,9 +56,7 @@ public class AddContactController extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             renderAddPage(request, response);
         }
-
         response.sendRedirect("/phonebook");
-
     }
 
     private void renderAddPage(HttpServletRequest request, HttpServletResponse response)
