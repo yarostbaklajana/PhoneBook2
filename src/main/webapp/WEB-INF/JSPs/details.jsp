@@ -11,8 +11,19 @@
     <header>
         <h1>Contact Details</h1>
     </header>
-    <p> <a href="/phonebook">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a> </p>
-
-    <p> First Name: <c:out value="${contact.firstName}" /></p>
-    <p> Last Name: <c:out value="${contact.lastName}" /></p>
+    <p>
+        <c:if test="${errorMessages ne null}">
+    <ul>
+        <c:forEach items="${errorMessages}" var="errorMessage">
+            <li>${errorMessage}</li>
+        </c:forEach>
+    </ul>
+    <p><a href="/phonebook">Back to the List</a></p>
+    </c:if>
+    </p>
+    <c:if test="${errorMessages eq null}">
+        <p> <a href="/phonebook">Back To The List</a>  | <a href="/edit?id=${contact.id}">Edit Details</a> </p>
+        <p> First Name: <c:out value="${contact.firstName}" /></p>
+        <p> Last Name: <c:out value="${contact.lastName}" /></p>
+    </c:if>
 </body>
