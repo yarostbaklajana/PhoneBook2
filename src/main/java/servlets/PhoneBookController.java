@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-/**
- * Created by yaros on 19.11.2015.
- */
+
 @WebServlet("/PhoneBook")
 public class PhoneBookController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
