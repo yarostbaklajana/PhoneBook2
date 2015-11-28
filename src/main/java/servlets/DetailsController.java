@@ -10,26 +10,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by yaros on 24.11.2015.
- */
 @WebServlet("/PhoneBook/details")
 public class DetailsController extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<String> errorMessages = new ArrayList<String>();
+
         PhoneBookDAO dao = new PhoneBookDAO();
         String id = request.getParameter("id");
+
         try {
             Contact contact = dao.getContact(Integer.valueOf(id));
             request.setAttribute("contact", contact);
         } catch (DAOException e) {
-            e.printStackTrace();
+            errorMessages.add(e.getMessage());
+            request.setAttribute("errorMessages", errorMessages);
+            renderDetailsPage(request, response);
         }
+        renderDetailsPage(request, response);
+    }
+
+    private void renderDetailsPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("WEB-INF/JSPs/details.jsp").forward(request, response);
     }
+
+
 }
