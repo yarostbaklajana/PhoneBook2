@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by yaros on 25.11.2015.
- */
+
 @WebServlet("/PhoneBook/edit")
 public class EditContactController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -21,13 +21,28 @@ public class EditContactController extends HttpServlet {
         String lastName = request.getParameter("lastName");
         int id = Integer.parseInt(request.getParameter("id"));
         PhoneBookDAO dao = new PhoneBookDAO();
+        List<String> errorMessages = new ArrayList<String>();
+        if(firstName.equals("")) {
+            errorMessages.add("First Name is empty. Enter the First Name.");
+        }
+
+        if(lastName.equals("")) {
+            errorMessages.add("Last Name is empty. Enter the Last Name.");
+        }
+
+        if(!errorMessages.isEmpty()) {
+            request.setAttribute("errorMessages", errorMessages);
+            renderEditPage(request, response);
+        }
 
         try {
             Contact contact = new Contact(id, firstName, lastName);
             dao.updateContact(contact);
 
         } catch (DAOException e) {
-            e.printStackTrace();
+            errorMessages.add(e.getMessage());
+            request.setAttribute("errorMessages", errorMessages);
+            renderEditPage(request, response);
         }
         response.sendRedirect("/details?id=" + id);
     }
@@ -35,16 +50,23 @@ public class EditContactController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         PhoneBookDAO dao = new PhoneBookDAO();
+        List<String> errorMessages = new ArrayList<String>();
+
         try {
             Contact contact = dao.getContact(Integer.valueOf(id));
             request.setAttribute("contact", contact);
-            renderEditPage(request, response);
+
         } catch (DAOException e) {
-            e.printStackTrace();
+            errorMessages.add(e.getMessage());
+            request.setAttribute("errorMessages", errorMessages);
+            renderEditPage(request, response);
         }
+        renderEditPage(request, response);
     }
 
     private void renderEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("WEB-INF/JSPs/edit.jsp").forward(request, response);
     }
+
+
 }
