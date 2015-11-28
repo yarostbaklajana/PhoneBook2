@@ -8,7 +8,8 @@
     <title>Phone Book | Edit Contact</title>
 </head>
 <body>
-<form action="/PhoneBook/edit" method="post">
+<c:if test="${errorMessages eq null}">
+<form action="/edit" method="post">
     <p>First Name: <input name="firstName" type="text" value="${contact.firstName}" placeholder="${contact.firstName}"/> </p>
     <p>Last Name: <input name="lastName" type="text" value="${contact.lastName}" placeholder="${contact.lastName}"/></p>
     <input name="id" type="hidden" value="${contact.id}"/>
@@ -17,5 +18,16 @@
         <input type="submit" value="Save">
     </p>
 </form>
+</c:if>
+<p>
+    <c:if test="${errorMessages ne null}">
+<ul>
+    <c:forEach items="${errorMessages}" var="errorMessage">
+        <li>${errorMessage}</li>
+    </c:forEach>
+</ul>
+<a href="/phonebook">Back to the list</a>
+</c:if>
+</p>
 
 </body>
