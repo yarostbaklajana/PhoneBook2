@@ -6,15 +6,13 @@ import models.Contact;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Created by yaros on 19.11.2015.
- */
+
 public class PhoneBookDAO {
     public final String hostName = "jdbc:mysql://127.0.0.1/phonebook";
     public final String userName = "yarostbaklajana";
     public final String password = "udusen81";
 
-    public PhoneBookDAO(){
+    public PhoneBookDAO() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -24,7 +22,7 @@ public class PhoneBookDAO {
 
     public void addContact(Contact contact) throws DAOException {
         final String insertStatement = "INSERT INTO `contacts` (`firstName`, `lastName`) VALUES (?, ?)";
-        try  {
+        try {
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(insertStatement);
             statement.setString(1, contact.getFirstName());
@@ -34,10 +32,9 @@ public class PhoneBookDAO {
         } catch (SQLException e) {
             throw new DAOException("Unable to save contact");
         }
-
     }
 
-    public ArrayList<Contact> getAllContacts() throws DAOException{
+    public ArrayList<Contact> getAllContacts() throws DAOException {
         ArrayList<Contact> contacts = new ArrayList<Contact>();
         final String selectAllQuery = "SELECT id, firstName, lastName FROM `contacts` ORDER BY firstName;";
 
@@ -56,12 +53,9 @@ public class PhoneBookDAO {
             }
             connection.close();
             return contacts;
-
-
         } catch (SQLException e) {
             throw new DAOException("Unable to load list of contacts");
         }
-
     }
 
     public void deleteContact(int id) throws DAOException {
@@ -76,8 +70,6 @@ public class PhoneBookDAO {
         } catch (SQLException e) {
             throw new DAOException("Unable to delete contact");
         }
-
-
     }
 
     public Contact getContact(int id) throws DAOException {
@@ -87,17 +79,17 @@ public class PhoneBookDAO {
             Connection connection = connect();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(selectContact);
-            while (result.next()) {
+            if (result.next()) {
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
-
                 contact = new Contact(id, firstName, lastName);
+            } else {
+                throw new DAOException("Unable to get contact details. The record doesn't exist or was removed in another session.");
             }
-
             connection.close();
             return contact;
         } catch (SQLException e) {
-            throw new DAOException("Unable to get contact!");
+            throw new DAOException("Unable to get contact details. The record doesn't exist or was removed in another session.");
         }
     }
 
@@ -107,14 +99,14 @@ public class PhoneBookDAO {
         try {
             Connection connection = connect();
             PreparedStatement statement = connection.prepareStatement(updateContact);
-            statement.setString(1,contact.getFirstName());
+            statement.setString(1, contact.getFirstName());
             statement.setString(2, contact.getLastName());
             statement.setInt(3, contact.getId());
             statement.execute();
             connection.close();
 
         } catch (SQLException e) {
-            throw new DAOException("Unable to update contact!");
+            throw new DAOException("Unable to get contact details. The recvord doesn't exist or was removed in another session.");
         }
     }
 
