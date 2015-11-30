@@ -22,15 +22,15 @@ public class EditContactController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         PhoneBookDAO dao = new PhoneBookDAO();
         List<String> errorMessages = new ArrayList<String>();
-        if(firstName.equals("")) {
+        if (firstName.equals("")) {
             errorMessages.add("First Name is empty. Enter the First Name.");
         }
 
-        if(lastName.equals("")) {
+        if (lastName.equals("")) {
             errorMessages.add("Last Name is empty. Enter the Last Name.");
         }
 
-        if(!errorMessages.isEmpty()) {
+        if (!errorMessages.isEmpty()) {
             request.setAttribute("errorMessages", errorMessages);
             renderEditPage(request, response);
             return;
@@ -39,13 +39,13 @@ public class EditContactController extends HttpServlet {
         try {
             Contact contact = new Contact(id, firstName, lastName);
             dao.updateContact(contact);
-
+            response.sendRedirect("/details?id=" + id);
         } catch (DAOException e) {
             errorMessages.add(e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
-            renderEditPage(request, response);
+            renderErrorPage(request, response);
         }
-        response.sendRedirect("/details?id=" + id);
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,13 +56,16 @@ public class EditContactController extends HttpServlet {
         try {
             Contact contact = dao.getContact(Integer.valueOf(id));
             request.setAttribute("contact", contact);
-
+            renderEditPage(request, response);
         } catch (DAOException e) {
             errorMessages.add(e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
-            renderEditPage(request, response);
+            renderErrorPage(request, response);
         }
-        renderEditPage(request, response);
+    }
+
+    private void renderErrorPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("WEB-INF/JSPs/contactNotFound.jsp").forward(request, response);
     }
 
     private void renderEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
