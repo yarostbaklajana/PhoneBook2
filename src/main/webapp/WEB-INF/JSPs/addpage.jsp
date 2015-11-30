@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="Styles/font-styles.css">
     <meta charset="UTF-8">
     <title>Phone Book | Add Contact</title>
 </head>
