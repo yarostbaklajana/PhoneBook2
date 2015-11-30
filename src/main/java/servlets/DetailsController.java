@@ -24,17 +24,11 @@ public class DetailsController extends HttpServlet {
         try {
             Contact contact = dao.getContact(Integer.valueOf(id));
             request.setAttribute("contact", contact);
+            request.getRequestDispatcher("WEB-INF/JSPs/details.jsp").forward(request, response);
         } catch (DAOException e) {
             errorMessages.add(e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
-            renderDetailsPage(request, response);
+            request.getRequestDispatcher("WEB-INF/JSPs/contactNotFound.jsp").forward(request, response);
         }
-        renderDetailsPage(request, response);
     }
-
-    private void renderDetailsPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/JSPs/details.jsp").forward(request, response);
-    }
-
-
 }
