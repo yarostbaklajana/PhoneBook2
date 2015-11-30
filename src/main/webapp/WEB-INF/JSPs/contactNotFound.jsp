@@ -8,14 +8,8 @@
     <title>Phone Book | Error</title>
 </head>
 <body>
-<c:if test="${errorMessages ne null}">
-    <ul>
-        <c:forEach items="${errorMessages}" var="error">
-            <li>${error}</li>
-        </c:forEach>
-    </ul>
+    <p>Unable to get contact details. The record doesn't exist or was removed in another session</p>
     <a href="/phonebook">Back to the List</a>
-</c:if>
 
 </body>
 </html>
