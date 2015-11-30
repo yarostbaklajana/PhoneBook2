@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +11,9 @@
 <body>
 
 <p class="add">
-    <a href="/add"><button>Add new contact</button></a>
+    <a href="/add">
+        <button>Add new contact</button>
+    </a>
 </p>
 
 
@@ -25,16 +27,20 @@
 
     <c:forEach items="${contacts}" var="current">
         <tr class="contacts">
-            <td class="column"><c:out value="${current.firstName}" /></td>
-            <td class="column"><c:out value="${current.lastName}" /></td>
+            <td class="column"><c:out value="${current.firstName}"/></td>
+            <td class="column"><c:out value="${current.lastName}"/></td>
             <td class="buttons-column">
-                <form action="/PhoneBook/delete" method="post">
-                    <input type="hidden" name="id" value="${current.id}" />
-                    <input
-                        type="submit" value="Delete">
-                </form> <br>
 
-                <a href="/details?id=${current.id}"><button>Open details</button></a>
+                <a class="details-link" href="/details?id=${current.id}">
+                    <button>Open details</button>
+                </a>
+
+                <form class="delete-form" action="/PhoneBook/delete" method="post">
+                    <input type="hidden" name="id" value="${current.id}"/>
+                    <button type="submit">Delete</button>
+                </form>
+                <br>
+
 
             </td>
         </tr>
@@ -49,8 +55,6 @@
         </ul>
     </c:if>
 </h1>
-
-
 
 
 </body>
