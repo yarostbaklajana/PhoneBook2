@@ -89,7 +89,7 @@ public class PhoneBookDAO {
             connection.close();
             return contact;
         } catch (SQLException e) {
-            throw new DAOException("Unable to get contact details. The record doesn't exist or was removed in another session.");
+            throw new DAOException("Connection is not available.");
         }
     }
 
@@ -106,7 +106,7 @@ public class PhoneBookDAO {
             connection.close();
 
         } catch (SQLException e) {
-            throw new DAOException("Unable to get contact details. The recvord doesn't exist or was removed in another session.");
+            throw new DAOException("Connection is not available.");
         }
     }
 

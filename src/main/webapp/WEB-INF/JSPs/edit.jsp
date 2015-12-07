@@ -11,10 +11,10 @@
 <body>
 
 <form action="/edit" method="post">
-    <p>First Name: <input name="firstName" type="text" value="${contact.firstName}" placeholder="${contact.firstName}"/>
+    <p>First Name: <input name="firstName" type="text" value="${contact.firstName}" placeholder="First Name"/>
     </p>
 
-    <p>Last Name: <input name="lastName" type="text" value="${contact.lastName}" placeholder="${contact.lastName}"/></p>
+    <p>Last Name: <input name="lastName" type="text" value="${contact.lastName}" placeholder="Last Name"/></p>
     <input name="id" type="hidden" value="${contact.id}"/>
 
     <p>

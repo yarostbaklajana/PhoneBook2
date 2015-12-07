@@ -5,3 +5,8 @@
 .header {
     margin-bottom: 5px;
 }
+.under-line {
+    width: 100%;
+    color: #ccc;
+    height: 1px;
+}

@@ -35,7 +35,7 @@
                     <button>Open details</button>
                 </a>
 
-                <form class="delete-form" action="/PhoneBook/delete" method="post">
+                <form class="delete-form" action="/delete" method="post">
                     <input type="hidden" name="id" value="${current.id}"/>
                     <button type="submit">Delete</button>
                 </form>

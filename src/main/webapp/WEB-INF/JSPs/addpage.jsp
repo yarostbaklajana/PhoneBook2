@@ -16,7 +16,7 @@
     <input type="text" name="lastName" value="${contact.lastName}" placeholder="Last Name"><br>
 
     <p>
-        <a href="/phonebook">Cancel</a>
+        <a href="/">Cancel</a>
         <input type="submit" value="Save">
     </p>
 </form>

@@ -9,7 +9,7 @@
 </head>
 <body>
     <p>Unable to get contact details. The record doesn't exist or was removed in another session</p>
-    <a href="/phonebook">Back to the List</a>
+    <a href="/">Back to the List</a>
 
 </body>
 </html>

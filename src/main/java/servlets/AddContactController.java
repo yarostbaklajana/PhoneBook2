@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/PhoneBook/add")
+
 public class AddContactController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -23,7 +23,6 @@ public class AddContactController extends HttpServlet {
         request.setAttribute("firstName", "");
         request.setAttribute("lastName", "");
         renderAddPage(request, response);
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +33,7 @@ public class AddContactController extends HttpServlet {
         ContactValidator validator = new ContactValidator();
         ValidationResult result = validator.validate(contact);
 
-        if (result.getIsValid() == false) {
+        if (!result.getIsValid()) {
             request.setAttribute("errorMessages", result.getErrors());
             request.setAttribute("contact", contact);
             renderAddPage(request, response);
@@ -44,7 +43,7 @@ public class AddContactController extends HttpServlet {
         try {
             PhoneBookDAO dao = new PhoneBookDAO();
             dao.addContact(contact);
-            response.sendRedirect("/phonebook");
+            response.sendRedirect("/");
         } catch (DAOException e) {
             List<String> errorMessages = new ArrayList<String>();
             errorMessages.add(e.getMessage());

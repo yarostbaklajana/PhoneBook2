@@ -13,12 +13,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-
-@WebServlet("/PhoneBook")
 public class PhoneBookController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<String> errorMessages = new ArrayList<String>();
 
         try {
             PhoneBookDAO dao = new PhoneBookDAO();
@@ -26,6 +23,7 @@ public class PhoneBookController extends HttpServlet {
             request.setAttribute("contacts", contacts);
 
         } catch (DAOException e) {
+            ArrayList<String> errorMessages = new ArrayList<String>();
             errorMessages.add(e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
         }

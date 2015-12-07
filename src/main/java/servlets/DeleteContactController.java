@@ -11,29 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by yaros on 19.11.2015.
- */
-@WebServlet("/PhoneBook/delete")
 public class DeleteContactController extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        ArrayList<String> errorMessages = new ArrayList<String>();
-        if (id != 0) {
-
-            try {
-                PhoneBookDAO dao = new PhoneBookDAO();
-                dao.deleteContact(id);
-            } catch (DAOException e) {
-            }
+        try {
+            String idString = request.getParameter("id");
+            Integer id = Integer.valueOf(idString);
+            PhoneBookDAO dao = new PhoneBookDAO();
+            dao.deleteContact(id);
+            response.sendRedirect("/");
+        } catch (DAOException e) {
+            ArrayList<String> errorMessages = new ArrayList<String>();
+            errorMessages.add(e.getMessage());
         }
-        response.sendRedirect("/phonebook");
-
     }
 }

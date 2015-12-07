@@ -12,9 +12,9 @@
 <body>
 <header>
     <h1 class="header">Contact Details</h1>
-    <hr size="1px" width="100%" color="#ccc">
+    <hr class="under-line">
 </header>
-<p class="links"><a href="/phonebook">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a></p>
+<p class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a></p>
 
 <p> First Name: <c:out value="${contact.firstName}"/></p>
 
