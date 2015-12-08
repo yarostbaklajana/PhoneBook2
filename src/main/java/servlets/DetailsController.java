@@ -1,11 +1,10 @@
 package servlets;
 
 import dao.PhoneBookDAO;
+import exceptions.ContactNotFoundException;
 import exceptions.DAOException;
 import models.Contact;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,12 +20,13 @@ public class DetailsController extends HttpServlet {
             String id = request.getParameter("id");
             Contact contact = dao.getContact(Integer.valueOf(id));
             request.setAttribute("contact", contact);
-            request.getRequestDispatcher("WEB-INF/JSPs/details.jsp").forward(request, response);
+        } catch (ContactNotFoundException e) {
+            request.getRequestDispatcher("WEB-INF/JSPs/contactNotFound.jsp").forward(request,response);
         } catch (DAOException e) {
             List<String> errorMessages = new ArrayList<String>();
             errorMessages.add(e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
-            request.getRequestDispatcher("WEB-INF/JSPs/contactNotFound.jsp").forward(request, response);
         }
+        request.getRequestDispatcher("WEB-INF/JSPs/details.jsp").forward(request, response);
     }
 }

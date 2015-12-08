@@ -13,7 +13,7 @@ body {
     width: 100%;
 }
 
-.header {
+.main-header {
     border-bottom: 3px solid darkgrey;
 }
 
@@ -45,3 +45,27 @@ body {
 .delete-form {
     display: inline;
 }
+
+.links {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.details-header {
+    margin-bottom: 5px;
+}
+
+.under-line {
+    width: 100%;
+    color: #ccc;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+.error-list {
+    list-style: none;
+}
+

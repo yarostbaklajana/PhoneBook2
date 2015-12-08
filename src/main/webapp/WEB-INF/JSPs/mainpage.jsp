@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="Styles/mainpage.css">
+    <link rel="stylesheet" type="text/css" href="Styles/styles.css">
     <meta charset="UTF-8">
     <title>Phone Book</title>
 </head>
-<body>
+<p>
 
 <p class="add">
     <a href="/add">
@@ -18,7 +18,7 @@
 
 
 <table class="table">
-    <tr class="header">
+    <tr class="main-header">
         <td class="title-column">First name</td>
         <td class="title-column">Last name</td>
         <td class="buttons"></td>
@@ -46,16 +46,14 @@
         </tr>
     </c:forEach>
 </table>
-<h1>
+<div class="error">
     <c:if test="${errorMessages ne null}">
-        <ul>
+        <ul class="error-list">
             <c:forEach items="${errorMessages}" var="errorMessage">
                 <li>${errorMessage}</li>
             </c:forEach>
         </ul>
     </c:if>
-</h1>
-
-
+</div>
 </body>
 </html>

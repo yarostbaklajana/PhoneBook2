@@ -4,20 +4,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="Styles/font-styles.css">
-    <link rel="stylesheet" type="text/css" href="Styles/details.css">
+    <link rel="stylesheet" type="text/css" href="Styles/styles.css">
     <meta charset="UTF-8">
     <title>Phone Book | Details</title>
 </head>
 <body>
 <header>
-    <h1 class="header">Contact Details</h1>
+    <h1 class="details-header">Contact Details</h1>
     <hr class="under-line">
 </header>
-<p class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a></p>
+<div class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a></div>
 
-<p> First Name: <c:out value="${contact.firstName}"/></p>
+<div> First Name: <c:out value="${contact.firstName}"/></div>
 
-<p> Last Name: <c:out value="${contact.lastName}"/></p>
+<div> Last Name: <c:out value="${contact.lastName}"/></div>
+<div class="error">
+    <c:if test="${errorMessages ne null}">
+        <ul class="error-list">
+            <c:forEach items="${errorMessages}" var="errorMessage">
+                <li>${errorMessage}</li>
+            </c:forEach>
+        </ul>
+    </c:if>
+</div>
+
 </body>
 </html>

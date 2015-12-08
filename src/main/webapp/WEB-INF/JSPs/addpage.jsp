@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="Styles/font-styles.css">
+    <link rel="stylesheet" type="text/css" href="Styles/styles.css">
     <meta charset="UTF-8">
     <title>Phone Book | Add Contact</title>
 </head>
@@ -15,22 +15,22 @@
     <input type="text" name="firstName" value="${contact.firstName}" placeholder="First Name"><br>
     <input type="text" name="lastName" value="${contact.lastName}" placeholder="Last Name"><br>
 
-    <p>
+    <div>
         <a href="/">Cancel</a>
         <input type="submit" value="Save">
-    </p>
+    </div>
 </form>
 
 
-<p>
+<div class="error">
     <c:if test="${errorMessages ne null}">
-<ul>
-    <c:forEach items="${errorMessages}" var="errorMessage">
-        <li>${errorMessage}</li>
-    </c:forEach>
-</ul>
-</c:if>
-</p>
+        <ul class="error-list">
+             <c:forEach items="${errorMessages}" var="errorMessage">
+                <li>${errorMessage}</li>
+            </c:forEach>
+        </ul>
+    </c:if>
+</div>
 
 </body>
 </html>

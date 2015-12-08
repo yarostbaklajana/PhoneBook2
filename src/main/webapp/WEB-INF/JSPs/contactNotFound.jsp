@@ -8,7 +8,7 @@
     <title>Phone Book | Error</title>
 </head>
 <body>
-    <p>Unable to get contact details. The record doesn't exist or was removed in another session</p>
+    <div class="error">Unable to get contact details. The record doesn't exist or was removed in another session</div>
     <a href="/">Back to the List</a>
 
 </body>

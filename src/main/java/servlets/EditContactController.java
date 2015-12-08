@@ -1,13 +1,13 @@
 package servlets;
 
 import dao.PhoneBookDAO;
+import exceptions.ContactNotFoundException;
 import exceptions.DAOException;
 import models.Contact;
 import validation.ContactValidator;
 import validation.ValidationResult;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,9 +37,11 @@ public class EditContactController extends HttpServlet {
             dao.updateContact(contact);
             response.sendRedirect("/details?id=" + id);
         } catch (DAOException e) {
-            renderErrorPage(request, response);
+            List<String> errorMessages = new ArrayList<>();
+            errorMessages.add(e.getMessage());
+            request.setAttribute("errorMessages", errorMessages);
+            renderEditPage(request, response);
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,8 +52,13 @@ public class EditContactController extends HttpServlet {
             Contact contact = dao.getContact(Integer.valueOf(id));
             request.setAttribute("contact", contact);
             renderEditPage(request, response);
-        } catch (DAOException e) {
+        } catch (ContactNotFoundException e) {
             renderErrorPage(request, response);
+        } catch (DAOException e) {
+            List<String> errorMessages = new ArrayList<String>();
+            errorMessages.add(e.getMessage());
+            request.setAttribute("errorMessages", errorMessages);
+            renderEditPage(request, response);
         }
     }
 
@@ -62,6 +69,4 @@ public class EditContactController extends HttpServlet {
     private void renderEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("WEB-INF/JSPs/edit.jsp").forward(request, response);
     }
-
-
 }

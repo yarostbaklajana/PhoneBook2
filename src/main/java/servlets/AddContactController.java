@@ -5,9 +5,7 @@ import exceptions.DAOException;
 import models.Contact;
 import validation.ContactValidator;
 import validation.ValidationResult;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +18,6 @@ public class AddContactController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("firstName", "");
-        request.setAttribute("lastName", "");
         renderAddPage(request, response);
     }
 
@@ -50,7 +46,6 @@ public class AddContactController extends HttpServlet {
             request.setAttribute("errorMessages", errorMessages);
             renderAddPage(request, response);
         }
-
     }
 
     private void renderAddPage(HttpServletRequest request, HttpServletResponse response)
