@@ -44,4 +44,12 @@
         <servlet-name>EditContact</servlet-name>
         <url-pattern>/edit</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AddPhoneNumber</servlet-name>
+        <servlet-class>servlets.AddPhoneNumberController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddPhoneNumber</servlet-name>
+        <url-pattern>/addphone</url-pattern>
+    </servlet-mapping>
 </web-app>
