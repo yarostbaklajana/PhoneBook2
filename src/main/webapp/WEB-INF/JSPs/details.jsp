@@ -13,11 +13,33 @@
     <h1 class="details-header">Contact Details</h1>
     <hr class="under-line">
 </header>
-<div class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contact.id}">Edit Details</a></div>
+<div class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contactDetails.contactId}">Edit Details</a></div>
 
-<div> First Name: <c:out value="${contact.firstName}"/></div>
+<div> First Name: <c:out value="${contactDetails.firstName}"/></div>
 
-<div> Last Name: <c:out value="${contact.lastName}"/></div>
+<div> Last Name: <c:out value="${contactDetails.lastName}"/></div>
+
+<header>
+    <h1 class="details-header">Phones</h1>
+    <hr class="under-line">
+</header>
+<div class="add-link"><a  href="/addphone?contact=${contactDetails.contactId}">Add Phone</a></div>
+    <c:if test="${contactDetails.phones ne null}">
+        <table class="table">
+            <tr>
+                <td class="title-column">Type</td>
+                <td class="title-column">Phone Number</td>
+            </tr>
+            <c:forEach items="${contactDetails.phones}" var="phone">
+                <tr>
+                    <td class="column">${phone.type}</td>
+                    <td class="column">${phone.phoneNumber}</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+
+
 <div class="error">
     <c:if test="${errorMessages ne null}">
         <ul class="error-list">
