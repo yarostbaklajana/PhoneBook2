@@ -3,8 +3,12 @@ package dao;
 import exceptions.ContactNotFoundException;
 import exceptions.DAOException;
 import models.Contact;
+import models.ContactDetails;
+import models.PhoneNumber;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PhoneBookDAO {
@@ -90,6 +94,48 @@ public class PhoneBookDAO {
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException("Connection is not available.");
+        }
+    }
+
+    public void addPhoneNumber(PhoneNumber phoneNumber, Contact current) throws DAOException {
+        final String insertPhoneNumber = "INSERT INTO phone(phone_number, `type`, contact_id) VALUES (?, ?, ?)";
+        try(Connection connection = connect()) {
+            PreparedStatement statement = connection.prepareStatement(insertPhoneNumber);
+            statement.setInt(1, phoneNumber.getPhoneNumber());
+            statement.setString(2, phoneNumber.getType());
+            statement.setInt(3, current.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DAOException("Unable to add Phone Number.");
+        }
+    }
+
+    public ContactDetails getContactDetails(int id) throws DAOException {
+        final String getDetailsQuery = "Select `phone`.`phone_number`, `phone_type`.`p_type`, `contacts`.`firstName`, `contacts`.`lastName`" +
+                "FROM `phone`" +
+                "RIGHT JOIN `contacts`" +
+                "ON `phone`.`contact_id`=`contacts`.`id`" +
+                "LEFT JOIN `phone_type`" +
+                "ON `phone`.`type_id`=`phone_type`.`type_id`" +
+                "WHERE `contacts`.`id`=" + id+";";
+
+        try(Connection connection = connect()) {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(getDetailsQuery);
+            List<PhoneNumber> phones = new ArrayList<>();
+            ContactDetails details = null;
+            while (result.next()) {
+                String phoneType = result.getString("phone_type.p_type");
+                int phoneNumber = result.getInt("phone.phone_number");
+                String firstName = result.getString("contacts.firstName");
+                String lastName = result.getString("contacts.lastName");
+                PhoneNumber phone = new PhoneNumber(phoneNumber, phoneType);
+                phones.add(phone);
+                details = new ContactDetails(id, firstName, lastName, phones);
+            }
+            return details;
+        } catch (SQLException e) {
+            throw new DAOException("Unable to get contact details");
         }
     }
 
