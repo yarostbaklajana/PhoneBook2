@@ -143,17 +143,19 @@ public class PhoneBookDAO {
             ResultSet result = statement.executeQuery(getDetailsQuery);
             List<PhoneNumber> phones = new ArrayList<>();
             ContactDetails details = null;
-
-            while (result.next()) {
-                String phoneType = result.getString("phone_type.p_type");
-                int phoneNumber = result.getInt("phone.phone_number");
-                String firstName = result.getString("contacts.firstName");
-                String lastName = result.getString("contacts.lastName");
-                PhoneNumber phone = new PhoneNumber(phoneNumber, phoneType);
-                phones.add(phone);
-                details = new ContactDetails(id, firstName, lastName, phones);
+                while (result.next()) {
+                    String phoneType = result.getString("phone_type.p_type");
+                    int phoneNumber = result.getInt("phone.phone_number");
+                    String firstName = result.getString("contacts.firstName");
+                    String lastName = result.getString("contacts.lastName");
+                    PhoneNumber phone = new PhoneNumber(phoneNumber, phoneType);
+                    phones.add(phone);
+                    details = new ContactDetails(id, firstName, lastName, phones);
+                }
+            if(details == null) {
+                throw new ContactNotFoundException();
             }
-            return details;
+                return details;
 
         } catch (SQLException e) {
             throw new DAOException("Unable to get contact details");
