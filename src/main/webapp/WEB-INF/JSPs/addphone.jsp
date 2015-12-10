@@ -10,9 +10,20 @@
 </head>
 <body>
 
+<form action="/addphone" method="post">
+    <p>Type: <select name="phoneType" size="1">
+        <option selected disabled="selectType">Select Phone Type</option>
+        <c:forEach items="${types}" var="type">
+            <option value="${type.typeId}">${type.phoneType}</option>
+        </c:forEach>
+    </select></p>
+    <p>Phone Number: <input type="text" name="number"></p>
+    <input type="hidden" name="contactId" value="${contactId}">
+    <a href="/details?id=${contactId}">Cancel</a>
+    <input type="submit" value="Save">
+</form>
 
 
-Hello From Add Phone!!
 
 
 <div class="error">
