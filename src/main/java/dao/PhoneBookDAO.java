@@ -5,6 +5,7 @@ import exceptions.DAOException;
 import models.Contact;
 import models.ContactDetails;
 import models.PhoneNumber;
+import models.PhoneType;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -97,17 +98,35 @@ public class PhoneBookDAO {
         }
     }
 
-    public void addPhoneNumber(PhoneNumber phoneNumber, Contact current) throws DAOException {
-        final String insertPhoneNumber = "INSERT INTO phone(phone_number, `type`, contact_id) VALUES (?, ?, ?)";
-        try(Connection connection = connect()) {
+    public void addPhoneNumber(PhoneNumber phoneNumber, int contactId) throws DAOException {
+        final String insertPhoneNumber = "INSERT INTO phone (phone_number, type_id, contact_id) VALUES (?, ?, ?)";
+        try (Connection connection = connect()) {
             PreparedStatement statement = connection.prepareStatement(insertPhoneNumber);
             statement.setInt(1, phoneNumber.getPhoneNumber());
             statement.setString(2, phoneNumber.getType());
-            statement.setInt(3, current.getId());
+            statement.setInt(3, contactId);
             statement.execute();
         } catch (SQLException e) {
             throw new DAOException("Unable to add Phone Number.");
         }
+    }
+
+    public List<PhoneType> getListOfPhoneTypes() throws DAOException {
+        String selectTypesQuery = "SELECT `type_id`, `p_type` FROM `phone_type`;";
+        try (Connection connection = connect()) {
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(selectTypesQuery);
+            List<PhoneType> types = new ArrayList<>();
+            while (result.next()) {
+                int typeId = result.getInt("type_id");
+                String phoneType = result.getString("p_type");
+                types.add(new PhoneType(typeId, phoneType));
+            }
+            return types;
+        } catch (SQLException e) {
+            throw new DAOException("Unable to get list of Phone Types.");
+        }
+
     }
 
     public ContactDetails getContactDetails(int id) throws DAOException {
@@ -117,13 +136,14 @@ public class PhoneBookDAO {
                 "ON `phone`.`contact_id`=`contacts`.`id`" +
                 "LEFT JOIN `phone_type`" +
                 "ON `phone`.`type_id`=`phone_type`.`type_id`" +
-                "WHERE `contacts`.`id`=" + id+";";
+                "WHERE `contacts`.`id`=" + id + ";";
 
-        try(Connection connection = connect()) {
+        try (Connection connection = connect()) {
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(getDetailsQuery);
             List<PhoneNumber> phones = new ArrayList<>();
             ContactDetails details = null;
+
             while (result.next()) {
                 String phoneType = result.getString("phone_type.p_type");
                 int phoneNumber = result.getInt("phone.phone_number");
@@ -134,6 +154,7 @@ public class PhoneBookDAO {
                 details = new ContactDetails(id, firstName, lastName, phones);
             }
             return details;
+
         } catch (SQLException e) {
             throw new DAOException("Unable to get contact details");
         }
