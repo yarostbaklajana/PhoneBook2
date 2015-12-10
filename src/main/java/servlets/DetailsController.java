@@ -20,7 +20,8 @@ public class DetailsController extends HttpServlet {
         try {
             PhoneBookDAO dao = new PhoneBookDAO();
             String id = request.getParameter("id");
-            ContactDetails contactDetails = dao.getContactDetails(Integer.parseInt(id));
+            int contactId = Integer.parseInt(id);
+            ContactDetails contactDetails = dao.getContactDetails(contactId);
             request.setAttribute("contactDetails", contactDetails);
         } catch (ContactNotFoundException e) {
             request.getRequestDispatcher("WEB-INF/JSPs/contactNotFound.jsp").forward(request,response);
