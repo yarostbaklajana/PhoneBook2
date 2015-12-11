@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form action="/addphone" method="post">
+<form action="/addphone?contact=${contactId}" method="post">
     <p>Type: <select name="phoneType" size="1">
         <option selected disabled="selectType">Select Phone Type</option>
         <c:forEach items="${types}" var="type">
