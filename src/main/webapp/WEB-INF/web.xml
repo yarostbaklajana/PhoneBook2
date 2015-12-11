@@ -52,4 +52,13 @@
         <servlet-name>AddPhoneNumber</servlet-name>
         <url-pattern>/addphone</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DeletePhone</servlet-name>
+        <servlet-class>servlets.DeletePhoneController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeletePhone</servlet-name>
+        <url-pattern>/deletephone</url-pattern>
+    </servlet-mapping>
+
 </web-app>
