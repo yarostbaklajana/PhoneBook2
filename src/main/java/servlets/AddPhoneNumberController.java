@@ -6,9 +6,7 @@ import models.PhoneNumber;
 import models.PhoneType;
 import validation.PhoneNumberValidator;
 import validation.ValidationResult;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +26,7 @@ public class AddPhoneNumberController extends HttpServlet {
             ValidationResult result = validator.validate(number);
             PhoneBookDAO dao = new PhoneBookDAO();
             if (!result.getIsValid()) {
+                request.setAttribute("phoneNumber", number);
                 request.setAttribute("contactId", contactId);
                 request.setAttribute("errorMessages", result.getErrors());
                 List<PhoneType> types = dao.getListOfPhoneTypes();
