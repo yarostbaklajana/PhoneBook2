@@ -4,6 +4,8 @@ import dao.PhoneBookDAO;
 import exceptions.DAOException;
 import models.PhoneNumber;
 import models.PhoneType;
+import validation.PhoneNumberValidator;
+import validation.ValidationResult;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +19,23 @@ import java.util.List;
 public class AddPhoneNumberController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int contactId = Integer.parseInt(request.getParameter("contactId"));
-        int phoneNumber = Integer.parseInt(request.getParameter("number"));
+        String phoneNumber = request.getParameter("number");
         String phoneType = request.getParameter("phoneType");
+
         try {
+            PhoneNumber number = new PhoneNumber(phoneNumber, phoneType);
+            PhoneNumberValidator validator = new PhoneNumberValidator();
+            ValidationResult result = validator.validate(number);
             PhoneBookDAO dao = new PhoneBookDAO();
-            dao.addPhoneNumber(new PhoneNumber(phoneNumber, phoneType), contactId);
+            if (!result.getIsValid()) {
+                request.setAttribute("contactId", contactId);
+                request.setAttribute("errorMessages", result.getErrors());
+                List<PhoneType> types = dao.getListOfPhoneTypes();
+                request.setAttribute("types", types);
+                renderAddPhonePage(request, response);
+                return;
+            }
+            dao.addPhoneNumber(number, contactId);
             response.sendRedirect("/details?id=" + contactId);
         } catch (DAOException e) {
             List<String> errorMessages = new ArrayList<>();
