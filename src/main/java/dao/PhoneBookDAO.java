@@ -55,14 +55,8 @@ public class PhoneBookDAO {
 
     public void deleteContact(int id) throws DAOException {
         final String deleteStatement = "DELETE FROM `contacts` WHERE `id`=?;";
-
-        try (Connection connection = connect()) {
-            PreparedStatement statement = connection.prepareStatement(deleteStatement);
-            statement.setInt(1, id);
-            statement.execute();
-        } catch (SQLException e) {
-            throw new DAOException("Unable to delete contact");
-        }
+        String errorMessage = "Unable to delete Contatct.";
+        delete(deleteStatement, errorMessage, id);
     }
 
     public Contact getContact(int id) throws DAOException {
@@ -102,7 +96,7 @@ public class PhoneBookDAO {
         final String insertPhoneNumber = "INSERT INTO phone (phone_number, type_id, contact_id) VALUES (?, ?, ?)";
         try (Connection connection = connect()) {
             PreparedStatement statement = connection.prepareStatement(insertPhoneNumber);
-            statement.setInt(1, phoneNumber.getPhoneNumber());
+            statement.setInt(1, Integer.parseInt(phoneNumber.getPhoneNumber()));
             statement.setString(2, phoneNumber.getType());
             statement.setInt(3, contactId);
             statement.execute();
@@ -130,7 +124,7 @@ public class PhoneBookDAO {
     }
 
     public ContactDetails getContactDetails(int id) throws DAOException {
-        final String getDetailsQuery = "Select `phone`.`phone_number`, `phone_type`.`p_type`, `contacts`.`firstName`, `contacts`.`lastName`" +
+        final String getDetailsQuery = "Select `phone`.`phone_number`, `phone_type`.`p_type`, `contacts`.`firstName`, `contacts`.`lastName`, `phone`.`phone_id`" +
                 "FROM `phone`" +
                 "RIGHT JOIN `contacts`" +
                 "ON `phone`.`contact_id`=`contacts`.`id`" +
@@ -145,10 +139,11 @@ public class PhoneBookDAO {
             ContactDetails details = null;
                 while (result.next()) {
                     String phoneType = result.getString("phone_type.p_type");
-                    int phoneNumber = result.getInt("phone.phone_number");
+                    String phoneNumber = String.valueOf(result.getInt("phone.phone_number"));
                     String firstName = result.getString("contacts.firstName");
                     String lastName = result.getString("contacts.lastName");
-                    PhoneNumber phone = new PhoneNumber(phoneNumber, phoneType);
+                    int phoneId = result.getInt("phone.phone_id");
+                    PhoneNumber phone = new PhoneNumber(phoneId, phoneNumber, phoneType);
                     phones.add(phone);
                     details = new ContactDetails(id, firstName, lastName, phones);
                 }
@@ -162,6 +157,21 @@ public class PhoneBookDAO {
         }
     }
 
+    public void deletePhoneNumber(int phoneId) throws DAOException {
+        final String deletePhoneQuery = "DELETE FROM `phone` WHERE `phone_id`=?;";
+        String errorMessage = "Unable to delete Phone Number";
+        delete(deletePhoneQuery, errorMessage, phoneId);
+    }
+
+    private void delete(String sql, String errorMessage, int objectId) throws DAOException {
+        try(Connection connection = connect()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, objectId);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DAOException(errorMessage);
+        }
+    }
     public Connection connect() throws SQLException {
         final String hostName = "jdbc:mysql://127.0.0.1/phonebook";
         final String userName = "yarostbaklajana";
