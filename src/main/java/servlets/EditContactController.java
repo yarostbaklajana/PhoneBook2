@@ -6,7 +6,6 @@ import exceptions.DAOException;
 import models.Contact;
 import validation.ContactValidator;
 import validation.ValidationResult;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ public class EditContactController extends HttpServlet {
         String idString = request.getParameter("id");
         int id = Integer.parseInt(idString);
         Contact contact = new Contact(id, firstName, lastName);
-
         ContactValidator validator = new ContactValidator();
         ValidationResult validationResult = validator.validate(contact);
         if (validationResult.getIsValid() == false) {

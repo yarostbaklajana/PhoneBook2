@@ -11,6 +11,7 @@ body {
 .table {
     border-collapse: collapse;
     width: 100%;
+    table-layout: fixed;
 }
 
 .main-header {
@@ -26,12 +27,11 @@ body {
 }
 
 .buttons-column {
-    width:40%;
+    width:150px;
     text-align: right;
 }
 
 .column {
-    width: 30%;
     height: 50px;
 }
 
@@ -67,4 +67,16 @@ body {
 
 .error-list {
     list-style: none;
+}
+
+.form-label {
+    text-align: right;
+    padding-right: 5px;
+    display: inline-block;
+    width: 140px;
+    margin-bottom: 15px;
+}
+
+.form-controls {
+    margin-left: 100px;
 }

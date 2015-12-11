@@ -10,17 +10,15 @@
 </head>
 <body>
 
-
 <form action="/add" method="post">
-    <input type="text" name="firstName" value="${contact.firstName}" placeholder="First Name"><br>
-    <input type="text" name="lastName" value="${contact.lastName}" placeholder="Last Name"><br>
+    <div><label class="form-label">First Name:</label><input type="text" name="firstName" value="${contact.firstName}"></div>
+    <div><label class="form-label">Last Name:</label><input type="text" name="lastName" value="${contact.lastName}"></div>
 
-    <div>
+    <div class="form-controls">
         <a href="/">Cancel</a>
         <input type="submit" value="Save">
     </div>
 </form>
-
 
 <div class="error">
     <c:if test="${errorMessages ne null}">

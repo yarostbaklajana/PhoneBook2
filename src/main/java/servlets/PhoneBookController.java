@@ -2,7 +2,7 @@ package servlets;
 
 import dao.PhoneBookDAO;
 import exceptions.DAOException;
-import models.Contact;
+import models.ContactInfo;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +13,10 @@ import java.util.ArrayList;
 public class PhoneBookController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
             PhoneBookDAO dao = new PhoneBookDAO();
-            ArrayList<Contact> contacts = dao.getAllContacts();
+            ArrayList<ContactInfo> contacts = dao.getAllContacts();
             request.setAttribute("contacts", contacts);
-
         } catch (DAOException e) {
             ArrayList<String> errorMessages = new ArrayList<String>();
             errorMessages.add(e.getMessage());

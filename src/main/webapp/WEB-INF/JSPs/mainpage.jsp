@@ -11,17 +11,16 @@
 <p>
 
 <p class="add">
-    <a href="/add">
-        <button>Add new contact</button>
-    </a>
+    <a href="/add">Add new contact</a>
 </p>
 
 
 <table class="table">
     <tr class="main-header">
-        <td class="title-column">First name</td>
-        <td class="title-column">Last name</td>
-        <td class="buttons"></td>
+        <td class="column">First name</td>
+        <td class="column">Last name</td>
+        <td class="column">Phones</td>
+        <td class="buttons-column"></td>
     </tr>
 
 
@@ -29,6 +28,7 @@
         <tr class="contacts">
             <td class="column"><c:out value="${current.firstName}"/></td>
             <td class="column"><c:out value="${current.lastName}"/></td>
+            <td class="column"><c:out value="${current.phonesCount}"/></td>
             <td class="buttons-column">
 
                 <a class="details-link" href="/details?id=${current.id}">

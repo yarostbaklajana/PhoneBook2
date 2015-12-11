@@ -19,7 +19,6 @@ public class AddPhoneNumberController extends HttpServlet {
         int contactId = Integer.parseInt(request.getParameter("contactId"));
         String phoneNumber = request.getParameter("number");
         String phoneType = request.getParameter("phoneType");
-
         try {
             PhoneNumber number = new PhoneNumber(phoneNumber, phoneType);
             PhoneNumberValidator validator = new PhoneNumberValidator();
@@ -57,7 +56,6 @@ public class AddPhoneNumberController extends HttpServlet {
             errorMessages.add(e.getMessage());
             request.setAttribute("errorMessages", errorMessages);
         }
-
         renderAddPhonePage(request, response);
     }
 

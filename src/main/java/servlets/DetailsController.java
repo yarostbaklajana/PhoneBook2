@@ -3,9 +3,7 @@ package servlets;
 import dao.PhoneBookDAO;
 import exceptions.ContactNotFoundException;
 import exceptions.DAOException;
-import models.Contact;
 import models.ContactDetails;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

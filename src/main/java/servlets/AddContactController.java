@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class AddContactController extends HttpServlet {
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         renderAddPage(request, response);
@@ -28,7 +26,6 @@ public class AddContactController extends HttpServlet {
         Contact contact = new Contact(firstName, lastName);
         ContactValidator validator = new ContactValidator();
         ValidationResult result = validator.validate(contact);
-
         if (!result.getIsValid()) {
             request.setAttribute("errorMessages", result.getErrors());
             request.setAttribute("contact", contact);

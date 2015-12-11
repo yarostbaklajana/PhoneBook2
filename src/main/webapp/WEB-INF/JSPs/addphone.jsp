@@ -11,20 +11,22 @@
 <body>
 
 <form action="/addphone?contact=${contactId}" method="post">
-    <p>Type: <select name="phoneType" size="1">
-        <option selected disabled="selectType">Select Phone Type</option>
+    <div><label class="form-label">Type:</label><select name="phoneType" size="1" value="${phoneNumber.type}">
+        <option value="">Select Phone Type</option>
         <c:forEach items="${types}" var="type">
-            <option value="${type.typeId}">${type.phoneType}</option>
+            <c:if test="${type.typeId eq phoneNumber.type}">
+                <option selected value="${type.typeId}">${type.phoneType}</option>
+            </c:if>
+            <c:if test="${type.typeId ne phoneNumber.type}">
+                <option value="${type.typeId}">${type.phoneType}</option>
+            </c:if>
         </c:forEach>
-    </select></p>
-    <p>Phone Number: <input type="text" name="number"></p>
+    </select></div>
+    <div><label class="form-label">Phone Number:</label><input type="text" name="number" value="${phoneNumber.phoneNumber}"></div>
     <input type="hidden" name="contactId" value="${contactId}">
-    <a href="/details?id=${contactId}">Cancel</a>
-    <input type="submit" value="Save">
+    <div class="form-controls"><a href="/details?id=${contactId}">Cancel</a>
+    <input type="submit" value="Save"></div>
 </form>
-
-
-
 
 <div class="error">
     <c:if test="${errorMessages ne null}">

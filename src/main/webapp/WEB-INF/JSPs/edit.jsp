@@ -11,13 +11,13 @@
 <body>
 
 <form action="/edit" method="post">
-    <div>First Name: <input name="firstName" type="text" value="${contact.firstName}" placeholder="First Name"/>
+    <div><label class="form-label">First Name:</label><input name="firstName" type="text" value="${contact.firstName}"/>
     </div>
 
-    <div>Last Name: <input name="lastName" type="text" value="${contact.lastName}" placeholder="Last Name"/></div>
+    <div><label class="form-label">Last Name:</label><input name="lastName" type="text" value="${contact.lastName}"/></div>
     <input name="id" type="hidden" value="${contact.id}"/>
 
-    <div>
+    <div class="form-controls">
         <a href="/details?id=${contact.id}">Back to Details</a>
         <input type="submit" value="Save">
     </div>

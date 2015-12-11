@@ -13,9 +13,9 @@
     <h1 class="details-header">Contact Details</h1>
     <hr class="under-line">
 </header>
-<div class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contactDetails.contactId}">Edit Details</a></div>
+<div class="links"><a href="/">Back To The List</a> | <a href="/edit?id=${contactDetails.id}">Edit Details</a></div>
 
-<div> First Name: <c:out value="${contactDetails.firstName}"/></div>
+<div> First Name: <c:out value="${contactDetails.firstName}"/></div><br>
 
 <div> Last Name: <c:out value="${contactDetails.lastName}"/></div>
 
@@ -23,21 +23,22 @@
     <h1 class="details-header">Phones</h1>
     <hr class="under-line">
 </header>
-<div class="add-link"><a  href="/addphone?contact=${contactDetails.contactId}">Add Phone</a></div>
-    <c:if test="${contactDetails.phones ne null}">
+<div class="links"><a  href="/addphone?contact=${contactDetails.id}">Add Phone</a></div>
+    <c:if test="${contactDetails.hasPhones}">
         <table class="table">
-            <tr>
+            <tr class="main-header">
                 <td class="title-column">Type</td>
                 <td class="title-column">Phone Number</td>
-                <td class="title-column"></td>
+                <td class="buttons"></td>
+
             </tr>
             <c:forEach items="${contactDetails.phones}" var="phone">
-                <tr>
+                <tr class="contacts">
                     <td class="column">${phone.type}</td>
                     <td class="column">${phone.phoneNumber}</td>
-                    <td class="column">
-                        <form action="/deletephone" class="delete-phone" method="post">
-                            <input type="hidden" name="contactId" value="${contactDetails.contactId}">
+                    <td class="buttons-column">
+                        <form class="delete-form" action="/deletephone" class="delete-phone" method="post">
+                            <input type="hidden" name="contactId" value="${contactDetails.id}">
                             <input type="hidden" name="phoneId" value="${phone.id}">
                             <button type="submit">Delete</button>
                         </form>
@@ -46,7 +47,6 @@
             </c:forEach>
         </table>
     </c:if>
-
 
 <div class="error">
     <c:if test="${errorMessages ne null}">
