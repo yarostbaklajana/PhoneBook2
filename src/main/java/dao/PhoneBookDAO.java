@@ -2,10 +2,7 @@ package dao;
 
 import exceptions.ContactNotFoundException;
 import exceptions.DAOException;
-import models.Contact;
-import models.ContactDetails;
-import models.PhoneNumber;
-import models.PhoneType;
+import models.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,9 +30,10 @@ public class PhoneBookDAO {
         }
     }
 
-    public ArrayList<Contact> getAllContacts() throws DAOException {
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-        final String selectAllQuery = "SELECT id, firstName, lastName FROM `contacts` ORDER BY firstName;";
+    public ArrayList<ContactInfo> getAllContacts() throws DAOException {
+        ArrayList<ContactInfo> contacts = new ArrayList<ContactInfo>();
+        final String selectAllQuery = "SELECT id, firstName, lastName, COUNT(phone_number) AS phones_count " +
+                "FROM `contacts` LEFT JOIN phone ON contacts.id = phone.contact_id GROUP BY contacts.id, contacts.firstName, contacts.lastName ORDER BY firstName;";
 
         try (Connection connection = connect()) {
             Statement statement = connection.createStatement();
@@ -44,8 +42,9 @@ public class PhoneBookDAO {
                 String firstName = result.getString("firstName");
                 String lastName = result.getString("lastName");
                 int id = result.getInt("id");
-                Contact contact = new Contact(id, firstName, lastName);
-                contacts.add(contact);
+                int count = result.getInt("phones_count");
+                ContactInfo contactInfo = new ContactInfo(id, firstName, lastName, count);
+                contacts.add(contactInfo);
             }
             return contacts;
         } catch (SQLException e) {
@@ -96,7 +95,7 @@ public class PhoneBookDAO {
         final String insertPhoneNumber = "INSERT INTO phone (phone_number, type_id, contact_id) VALUES (?, ?, ?)";
         try (Connection connection = connect()) {
             PreparedStatement statement = connection.prepareStatement(insertPhoneNumber);
-            statement.setInt(1, Integer.parseInt(phoneNumber.getPhoneNumber()));
+            statement.setLong(1, Long.parseLong(phoneNumber.getPhoneNumber()));
             statement.setString(2, phoneNumber.getType());
             statement.setInt(3, contactId);
             statement.execute();
@@ -138,13 +137,15 @@ public class PhoneBookDAO {
             List<PhoneNumber> phones = new ArrayList<>();
             ContactDetails details = null;
                 while (result.next()) {
-                    String phoneType = result.getString("phone_type.p_type");
-                    String phoneNumber = String.valueOf(result.getInt("phone.phone_number"));
                     String firstName = result.getString("contacts.firstName");
                     String lastName = result.getString("contacts.lastName");
                     int phoneId = result.getInt("phone.phone_id");
-                    PhoneNumber phone = new PhoneNumber(phoneId, phoneNumber, phoneType);
-                    phones.add(phone);
+                    if(phoneId != 0) {
+                        String phoneType = result.getString("phone_type.p_type");
+                        String phoneNumber = String.valueOf(result.getLong("phone.phone_number"));
+                        PhoneNumber phone = new PhoneNumber(phoneId, phoneNumber, phoneType);
+                        phones.add(phone);
+                    }
                     details = new ContactDetails(id, firstName, lastName, phones);
                 }
             if(details == null) {
