@@ -2,9 +2,6 @@ package validation;
 
 import models.Contact;
 
-/**
- * Created by yaros on 30.11.2015.
- */
 public class ContactValidator {
     public ValidationResult validate(Contact contact) {
         ValidationResult validationResult = new ValidationResult();
