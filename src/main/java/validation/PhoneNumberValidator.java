@@ -11,9 +11,7 @@ public class PhoneNumberValidator {
 
         if(isEmptyOfNull(phoneNumber.getPhoneNumber())) {
             validationResult.addError("Phone number is empty.");
-        }
-
-        if(!isNumeric(phoneNumber.getPhoneNumber())) {
+        } else if(!isNumeric(phoneNumber.getPhoneNumber())) {
             validationResult.addError("Only numbers are allowed in Phone Number.");
         }
 
@@ -28,6 +26,6 @@ public class PhoneNumberValidator {
     }
 
     private boolean isNumeric(String parameter) {
-        return parameter.matches("\\d{7,10}");
+        return parameter.matches("^\\d{1,12}$");
     }
 }
