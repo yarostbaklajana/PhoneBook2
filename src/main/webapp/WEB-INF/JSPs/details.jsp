@@ -29,11 +29,19 @@
             <tr>
                 <td class="title-column">Type</td>
                 <td class="title-column">Phone Number</td>
+                <td class="title-column"></td>
             </tr>
             <c:forEach items="${contactDetails.phones}" var="phone">
                 <tr>
                     <td class="column">${phone.type}</td>
                     <td class="column">${phone.phoneNumber}</td>
+                    <td class="column">
+                        <form action="/deletephone" class="delete-phone" method="post">
+                            <input type="hidden" name="contactId" value="${contactDetails.contactId}">
+                            <input type="hidden" name="phoneId" value="${phone.id}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
