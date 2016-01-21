@@ -18,11 +18,7 @@ public class ValidationResult {
         return errors;
     }
 
-    public void setIsValid(boolean valid) {
-        isValid = valid;
-    }
-
     public boolean getIsValid() {
-        return isValid;
+        return errors.isEmpty();
     }
 }

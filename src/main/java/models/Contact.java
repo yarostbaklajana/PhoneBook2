@@ -1,5 +1,7 @@
 package models;
 
+import validation.constraints.NotEmpty;
+
 public class Contact {
     private int id;
     private String firstName;
@@ -21,10 +23,12 @@ public class Contact {
         return id;
     }
 
+    @NotEmpty(message = "First Name is empty")
     public String getFirstName() {
         return firstName;
     }
 
+    @NotEmpty(message = "Last Name is empty")
     public String getLastName() {
         return lastName;
     }

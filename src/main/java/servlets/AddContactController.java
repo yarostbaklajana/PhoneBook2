@@ -2,10 +2,8 @@ package servlets;
 
 import exceptions.DAOException;
 import models.Contact;
-import validation.ContactValidator;
-import validation.ContactValidatorImpl;
 import validation.ValidationResult;
-
+import validation.Validator;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddContactController extends BaseController {
-    private ContactValidator contactValidator;
+    private Validator validator;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         renderAddPage(request, response);
@@ -26,7 +24,7 @@ public class AddContactController extends BaseController {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         Contact contact = new Contact(firstName, lastName);
-        ValidationResult result = contactValidator.validate(contact);
+        ValidationResult result = validator.validate(contact);
         if (!result.getIsValid()) {
             request.setAttribute("errorMessages", result.getErrors());
             request.setAttribute("contact", contact);
@@ -51,7 +49,7 @@ public class AddContactController extends BaseController {
     }
 
     @Inject
-    public void setContactValidator(ContactValidator contactValidator) {
-        this.contactValidator = contactValidator;
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 }

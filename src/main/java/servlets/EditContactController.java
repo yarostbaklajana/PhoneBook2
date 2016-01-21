@@ -3,8 +3,8 @@ package servlets;
 import exceptions.ContactNotFoundException;
 import exceptions.DAOException;
 import models.Contact;
-import validation.ContactValidator;
 import validation.ValidationResult;
+import validation.Validator;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditContactController extends BaseController {
-    private ContactValidator contactValidator;
+    private Validator validator;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String firstName = request.getParameter("firstName");
@@ -22,8 +22,8 @@ public class EditContactController extends BaseController {
         String idString = request.getParameter("id");
         int id = Integer.parseInt(idString);
         Contact contact = new Contact(id, firstName, lastName);
-        ValidationResult validationResult = contactValidator.validate(contact);
-        if (validationResult.getIsValid() == false) {
+        ValidationResult validationResult = validator.validate(contact);
+        if (!validationResult.getIsValid()) {
             request.setAttribute("errorMessages", validationResult.getErrors());
             request.setAttribute("contact", contact);
             renderEditPage(request, response);
@@ -66,7 +66,7 @@ public class EditContactController extends BaseController {
     }
 
     @Inject
-    public void setContactValidator(ContactValidator contactValidator) {
-        this.contactValidator = contactValidator;
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 }

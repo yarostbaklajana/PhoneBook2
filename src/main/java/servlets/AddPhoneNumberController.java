@@ -3,8 +3,8 @@ package servlets;
 import exceptions.DAOException;
 import models.PhoneNumber;
 import models.PhoneType;
-import validation.PhoneNumberValidator;
 import validation.ValidationResult;
+import validation.Validator;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,19 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddPhoneNumberController extends BaseController {
-    private PhoneNumberValidator phoneNumberValidator;
-
+    private Validator validator;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int contactId = Integer.parseInt(request.getParameter("contactId"));
         String phoneNumber = request.getParameter("number");
         String phoneType = request.getParameter("phoneType");
         try {
             PhoneNumber number = new PhoneNumber(phoneNumber, phoneType);
-            ValidationResult result = phoneNumberValidator.validate(number);
-            if (!result.getIsValid()) {
+            ValidationResult validationResult = validator.validate(number);
+            if (!validationResult.getIsValid()) {
                 request.setAttribute("phoneNumber", number);
                 request.setAttribute("contactId", contactId);
-                request.setAttribute("errorMessages", result.getErrors());
+                request.setAttribute("errorMessages", validationResult.getErrors());
                 List<PhoneType> types = dao.getListOfPhoneTypes();
                 request.setAttribute("types", types);
                 renderAddPhonePage(request, response);
@@ -62,7 +61,7 @@ public class AddPhoneNumberController extends BaseController {
     }
 
     @Inject
-    public void setPhoneNumberValidator(PhoneNumberValidator phoneNumberValidator) {
-        this.phoneNumberValidator = phoneNumberValidator;
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 }
